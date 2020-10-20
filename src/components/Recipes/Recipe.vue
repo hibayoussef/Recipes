@@ -1,35 +1,38 @@
+
 <template>
   <v-container>
-    <v-layout row wrap>
+    <v-layout row wrap >
       <v-flex x12>
         <v-card>
-          <v-card-title>
-            <h4 class="btn-style"> 
-              {{recipe.title}} 
-            </h4> 
-          </v-card-title> 
-          <v-img 
-            height="500px" 
-            :src="recipe.imageUrl"
-          ></v-img>
-          <v-card-text>
+          <!-- <v-card-title> -->
+                      <v-card-text>
+                        <h4 class="btn-style mt-4 mb-4 font">
+              {{ loadedRecipe.title }}
+            </h4>
+         
+          <v-img height="530px" :src="loadedRecipe.imageUrl" class="mb-4"></v-img>
+
             <div class="btn-style">
-              <!-- * Arabic food -->
-              {{recipe.date}}
+              {{ loadedRecipe.description }}
             </div>
             <div>
-              orchards where you can go cherry picking each year. But the season
-              always seems so fleetingly short to me, so I don’t hold back from
-              purchasing an outrageous quantity and eating them as quickly as
-              possible. I’m making sure to use every last one of mine and this
-              recipe is just the start of a beautiful cherry-obsessed season
+              {{ loadedingredient.Name }} {{ loadedingredient.Quantity }}
             </div>
+            
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-              <v-btn class="green darken-1  color">
-                  Register
-              </v-btn>
+             <!-- <v-flex xs5 sm4 md2> -->
+                    <v-btn class=" mb-4 mr-4">
+                      <v-icon left class=" pl-4 ">
+                        mdi-pen
+                      </v-icon>
+                      <!-- </v-btn> -->
+                    </v-btn>
+                  <!-- </v-flex> -->
+            <v-btn class="green darken-1  color mb-4 mr-2">
+              Add to my Shopping List
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -38,22 +41,37 @@
 </template>
 
 <script>
-export default {
-    props:['id'],
-    computed:{
-        recipe(){
-            return this.$store.getters.loadedRecipe(this.id)
-        }
-    }    
-}
+import { mapGetters } from 'vuex'
 
+export default {
+  props: ["id"],
+  computed: {
+    ...mapGetters([
+      'loadedRecipe',
+      'loadedingredient'
+    ]),
+  },
+  methods:{
+      recipe() {
+      return this.$store.dispatch('loadedRecipe')
+    },
+     ingredient() {
+      return this.$store.dispatch('loadedingredient')
+    },
+  }
+};
 </script>
 <style scoped>
 .btn-style {
   color: #43a047;
 }
-.color{
-    color: #FAFAFA;
+.color {
+  color: #fafafa;
+}
+.deleteColorIcon {
+  color: #e53935;
+}
+.font{
+  font-size: 30px;
 }
 </style>
-
